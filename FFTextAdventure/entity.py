@@ -1,3 +1,7 @@
+import tarfile
+
+#This file should contain the basis for all entities, players and enemies, that can be in combat.
+#Warrior/Knight, Blackbelt/Master, Thief/Ninja, Black Mage/Black Wizard, White Mage/White Wizard, Red Mage/Red Wizard
 class Entity:
     def __init__(self, name, level, maxHP, maxMP, actions ):
         self.name = name
@@ -5,15 +9,19 @@ class Entity:
         self.maxHP = maxHP
         self.currentHP = maxHP
         self.maxMP = maxMP
-        self.actions = ["Attack"] + actions
+        self.actions = ["Attack", "Items"] + actions
 
 class WhiteMage(Entity):
     def __init__(self, name, level, maxHP, maxMP, actions):
         super().__init__(name, level, maxHP, maxMP, actions)
 
-    def cure(target):
+    def cure(self, target):
         target.currentHP = target.currentHP + 50
 
-player3 = WhiteMage("Ib", 30, 500, 1000, ["Cure"])
-player3.cure(player3)
-print(player3.currentHP)
+    def life(self, target):
+        if target.currentHP < 1:
+            target.currentHP = target.maxHP/2
+        elif target.name == "Undead":
+            target.currentHP = 0
+        else: 
+            return
